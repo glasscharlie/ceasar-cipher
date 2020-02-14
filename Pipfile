@@ -6,7 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+nltk = "*"
 pytest = "*"
+pygame = "*"
 
 [requires]
 python_version = "3.6"
