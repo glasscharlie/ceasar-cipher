@@ -1,41 +1,34 @@
-# from nltk.corpus import words
-# word_list = words.words()
+from nltk.corpus import words
+word_list = words.words()
+import random
+import pygame
 
-def encrypt(text, s): 
-    result = ''
-  
-    for i in range(len(text)): 
-        char = text[i] 
-  
-        if (char.isupper()): 
-            result += chr((ord(char) + s - 65) % 26 + 65) 
-  
-        else: 
-            result += chr((ord(char) + s - 97) % 26 + 97) 
-  
-    return result 
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
+def encrypt(words, key):
+    encrypted_words = ''
 
+    for char in words.lower():
+        if char in alphabet:
+            encrypted_letter = alphabet[(alphabet.index(char.lower()) + key) % len(alphabet)]
+            encrypted_words += encrypted_letter
+        else:
+            encrypted_words += char
+    return encrypted_words    
 
-def decrypt(text, s): 
-    test = 26 - s
-    result = ''
-  
-    for i in range(len(text)): 
-        char = text[i] 
-  
-        if (char.isupper()): 
-            result += chr((ord(char) + test - 65) % 26 + 65) 
-  
-        else: 
-            result += chr((ord(char) + test - 97) % 26 + 97) 
-  
-    return result 
-  
+def decrypt(words):
 
+    def english_words(list_of_words):
+        number_correct = 0
+        for word in list_of_words:
+            if word in word_list:
+                number_correct += 1
+        if number_correct/len(list_of_words) >= 0.5:
+            return True
+        return False
 
-
-test = encrypt('testonetwothreefourfivesix', 5)
-print(test)
-
-print(decrypt(test, 5))
+    for key in range(len(alphabet)):    
+        a = encrypt(words, (-1*(key)))
+        b = english_words(a.split(' '))
+        if b:
+            return a
